@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import Person from './Person/Person.js';
 
 class App extends Component {
@@ -45,11 +46,16 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroudColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'ponter'
+      cursor: 'ponter',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null
@@ -66,12 +72,28 @@ class App extends Component {
             changed={(event) => this.nameChangedHandeler(event, person.id)} />
           })}
         </div>
-      )
+      );
+
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    };
+
+    const classes = []
+    if (this.state.persons.length <= 2) {
+      classes.push('red')
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push('bold')
     }
 
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
+        <p className={classes.join(' ')}> This is really working!</p>
         <button
           style={style}
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
@@ -80,5 +102,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
