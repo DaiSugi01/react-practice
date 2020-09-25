@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
 import './App.css';
 import Person from './Person/Person.js';
 
-const StyledButton = styled.button`
-background-color: ${props => props.alt ? 'red' : 'green'};
-color: white;
-font: inherit;
-border: 1px solid blue;
-padding: 8px;
-cursor: ponter;
-&:hover {
-  background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-  color: black;
-}`;
+// const StyledButton = styled.button`
+// background-color: ${props => props.alt ? 'red' : 'green'};
+// color: white;
+// font: inherit;
+// border: 1px solid blue;
+// padding: 8px;
+// cursor: ponter;
+// &:hover {
+//   background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+//   color: black;
+// }`;
 
 class App extends Component {
 
@@ -107,9 +106,12 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <p className={classes.join(' ')}> This is really working!</p>
-        <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
+        {/* <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
           Toggle Persons
-        </StyledButton>
+        </StyledButton> */}
+        <button className="button" onClick={this.togglePersonsHandler}>
+          Toggle Persons
+        </button>
         {persons}
       </div>
     );
