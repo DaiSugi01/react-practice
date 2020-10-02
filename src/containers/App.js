@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
 
@@ -19,7 +22,8 @@ class App extends Component {
     ],
     otherState: "some other value",
     showPersons: false.persons,
-    showCockpit: true
+    showCockpit: true,
+    authenticated: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -69,6 +73,11 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+    console.log(this.state.authenticated)
+  };
+
   render() {
 
     let persons = null
@@ -78,13 +87,15 @@ class App extends Component {
         <Persons 
           persons={this.state.persons}
           clicked={this.deletePersonJandler}
-          changed={this.nameChangedHandeler} />;
+          changed={this.nameChangedHandeler}
+          isAuthenticated={this.state.authenticated} 
+        />
     };
 
     console.log(`[App.js] render`);
 
     return (
-      <div className={classes.App}>
+      <Aux>
         <button 
           onClick={() => {
             this.setState({showCockpit: false})
@@ -93,16 +104,25 @@ class App extends Component {
 
           Remove Cockpit
         </button>
-        {this.state.showCockpit ? <Cockpit 
-          title={this.props.appTitle}
-          showPersons={this.state.showPersons}
-          personsLength={this.state.persons.length}
-          clicked={this.togglePersonsHandler}
-          /> : null}
-        {persons}
-      </div>
+        <AuthContext.Provider value={{
+          authenticated: this.state.authenticated,
+          login: this.loginHandler
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit 
+              title={this.props.appTitle}
+              showPersons={this.state.showPersons}
+              personsLength={this.state.persons.length}
+              clicked={this.togglePersonsHandler}
+              login={this.loginHandler}
+            /> 
+          ) : null}
+          {persons}
+        </AuthContext.Provider>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
